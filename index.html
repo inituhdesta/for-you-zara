@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Surat Untuk Putri 💌</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ambient floating hearts (decorative) -->
+  <div class="ambient-layer" aria-hidden="true">
+    <span class="floating-icon float-slow" style="top:8%; left:10%; font-size:1.875rem; opacity:0.3;">💗</span>
+    <span class="floating-icon float-slower" style="top:18%; left:80%; font-size:1.5rem; opacity:0.2;">✨</span>
+    <span class="floating-icon float-slow" style="top:70%; left:85%; font-size:2.25rem; opacity:0.2; animation-delay:1.5s;">🤍</span>
+    <span class="floating-icon float-slower" style="top:75%; left:8%; font-size:1.5rem; opacity:0.3; animation-delay:2s;">✨</span>
+    <span class="floating-icon float-slow" style="top:40%; left:5%; font-size:1.875rem; opacity:0.2; animation-delay:1s;">💗</span>
+    <span class="floating-icon float-slower" style="top:50%; left:90%; font-size:1.875rem; opacity:0.2; animation-delay:0.5s;">🤍</span>
+  </div>
+
+  <!-- progress bar -->
+  <div class="progress-track">
+    <div id="progressBar" class="progress-fill"></div>
+  </div>
+
+  <main class="app-main">
+
+    <!-- SCENE 1: COVER -->
+    <section id="scene-cover" class="scene scene-cover" style="display:flex;">
+      <div class="icon-badge">💌</div>
+      <h1 class="script-heading">Sepucuk surat untuk</h1>
+      <p id="coverName" class="script-name">Nadia</p>
+      <p class="muted-text">Buka kalau kamu siap baca sesuatu yang sudah aku tulis khusus buat kamu.</p>
+      <button id="btnOpenLetter" type="button" class="btn btn-primary">Buka Surat</button>
+    </section>
+
+    <!-- SCENE 2: PIN -->
+    <section id="scene-pin" class="scene scene-pin" style="display:none;">
+      <div id="pinBadge" class="icon-badge">🔒</div>
+      <h2 class="heading-md">Masukkan PIN Rahasia</h2>
+      <p class="muted-text muted-tight">Cuma kamu yang tahu kode ini ya~</p>
+      <div id="pinDots" class="pin-dots"></div>
+      <p id="pinError" class="error-text" aria-live="polite"></p>
+      <div id="numpad" class="numpad">
+        <button type="button" data-val="1" class="numpad-btn">1</button>
+        <button type="button" data-val="2" class="numpad-btn">2</button>
+        <button type="button" data-val="3" class="numpad-btn">3</button>
+        <button type="button" data-val="4" class="numpad-btn">4</button>
+        <button type="button" data-val="5" class="numpad-btn">5</button>
+        <button type="button" data-val="6" class="numpad-btn">6</button>
+        <button type="button" data-val="7" class="numpad-btn">7</button>
+        <button type="button" data-val="8" class="numpad-btn">8</button>
+        <button type="button" data-val="9" class="numpad-btn">9</button>
+        <div aria-hidden="true"></div>
+        <button type="button" data-val="0" class="numpad-btn">0</button>
+        <button type="button" data-val="clear" class="numpad-btn numpad-btn--clear">CLEAR</button>
+      </div>
+    </section>
+
+    <!-- SCENE 3: LETTER -->
+    <section id="scene-letter" class="scene scene-letter" style="display:none;">
+      <div class="letter-card">
+        <p id="letterGreeting" class="letter-greeting">Untuk Zara Nadia Hasanah,</p>
+        <div id="letterBody" class="letter-body"></div>
+        <p id="letterSignature" class="letter-signature">— Desta</p>
+      </div>
+      <button id="btnAfterLetter" type="button" class="btn btn-primary">Lanjutkan</button>
+    </section>
+
+    <!-- SCENE 4: PROPOSAL -->
+    <section id="scene-proposal" class="scene scene-proposal" style="display:none;">
+      <p class="proposal-quote">
+        "Will you be my <span class="text-accent">girlfriend</span>, <span id="proposalName">Zara Nadia Hasanah</span>?"
+      </p>
+      <p id="dodgeCaption" class="dodge-caption"></p>
+      <div id="buttonStage" class="button-stage">
+        <button id="btnYes" type="button" class="btn-yes">💗 Yes!</button>
+        <button id="btnNo" type="button" class="btn-no">No</button>
+      </div>
+    </section>
+
+    <!-- SCENE 5: CELEBRATE -->
+    <section id="scene-celebrate" class="scene scene-celebrate" style="display:none;">
+      <div class="celebrate-emoji">🎉</div>
+      <h2 class="celebrate-title">Yeay!</h2>
+      <p id="celebrateText" class="celebrate-text"></p>
+      <p id="celebrateSub" class="muted-text"></p>
+    </section>
+
+  </main>
+
+  <div id="confettiContainer" class="confetti-layer" aria-hidden="true"></div>
+
+<script>
+  // ====================================================
+  // GANTI BAGIAN INI SESUAI KEINGINAN KAMU
+  // ====================================================
+  const CONFIG = {
+    recipientName: "Zara Nadia Hasanah",       // nama orang yang dikirimi surat
+    senderName: "Desta",        // nama kamu
+    pin: "170509",                 // PIN rahasia (boleh 4-6 digit angka)
+    letterParagraphs: [
+      "Mungkin selama ini aku belum pernah benar-benar bilang ini secara langsung, tapi entah kenapa lewat tulisan rasanya lebih mudah.",
+      "Setiap kali ngobrol bareng kamu, walau cuma soal hal-hal kecil, selalu ada rasa nyaman yang susah aku jelasin. Makanya aku memberanikan diri buat bikin halaman kecil ini, khusus untuk kamu Zara.",
+      "Aku nggak butuh jawaban yang sempurna, aku cuma mau kamu tahu apa yang aku rasain selama ini.",
+      "Mungkin aku udah telat nyampein ini, tapi kamu orang yang aku sayang. Selama ini perasaan aku ke kamu ga pernah cuma dianggap biasa aja. Mungkin aku emang ga selalu bisa nunjukin atau nyampeinnya dengan cara yang kamu butuhin, tapi bukan berarti kamu ga berarti buat aku.",
+      "Makasi juga selama ini nemenin aku, selalu ada buat aku, selalu sabar ngadepin aku dan selalu berusaha ngertiin aku. Mungkin aku ga sering bilang, tapi aku bener-bener menghargai semua yang udah kamu kasih ke aku."
+    ],
+  };
+  // ====================================================
+
+  // isi teks dari CONFIG
+  document.getElementById('coverName').textContent = CONFIG.recipientName;
+  document.getElementById('proposalName').textContent = CONFIG.recipientName;
+  document.getElementById('letterGreeting').textContent = `Untuk ${CONFIG.recipientName},`;
+  document.getElementById('letterSignature').textContent = `— ${CONFIG.senderName}`;
+  document.title = `Surat Untuk ${CONFIG.recipientName} 💌`;
+
+  const letterBodyEl = document.getElementById('letterBody');
+  CONFIG.letterParagraphs.forEach(text => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    letterBodyEl.appendChild(p);
+  });
+
+  // ---------- scene switching ----------
+  const scenes = ['scene-cover', 'scene-pin', 'scene-letter', 'scene-proposal', 'scene-celebrate'];
+
+  function goTo(id) {
+    scenes.forEach(s => {
+      document.getElementById(s).style.display = (s === id) ? 'flex' : 'none';
+    });
+    const idx = scenes.indexOf(id);
+    const pct = (idx / (scenes.length - 1)) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  document.getElementById('btnOpenLetter').addEventListener('click', () => goTo('scene-pin'));
+  document.getElementById('btnAfterLetter').addEventListener('click', () => goTo('scene-proposal'));
+
+  // ---------- PIN logic ----------
+  let pinInput = '';
+  const pinDotsEl = document.getElementById('pinDots');
+  const pinErrorEl = document.getElementById('pinError');
+  const pinBadge = document.getElementById('pinBadge');
+
+  function renderDots() {
+    pinDotsEl.innerHTML = '';
+    for (let i = 0; i < CONFIG.pin.length; i++) {
+      const d = document.createElement('div');
+      d.className = 'pin-dot' + (i < pinInput.length ? ' pin-dot--filled' : '');
+      pinDotsEl.appendChild(d);
+    }
+  }
+  renderDots();
+
+  document.getElementById('numpad').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const val = btn.dataset.val;
+
+    if (val === 'clear') {
+      pinInput = '';
+      pinErrorEl.textContent = '';
+      renderDots();
+      return;
+    }
+
+    if (pinInput.length < CONFIG.pin.length) {
+      pinInput += val;
+      renderDots();
+
+      if (pinInput.length === CONFIG.pin.length) {
+        if (pinInput === CONFIG.pin) {
+          pinErrorEl.textContent = '';
+          pinBadge.textContent = '💌';
+          pinBadge.classList.add('is-success');
+          setTimeout(() => goTo('scene-letter'), 450);
+        } else {
+          pinErrorEl.textContent = 'PIN salah, PIN nya tanggal lahir kamu lohhh';
+          pinDotsEl.classList.add('shake');
+          setTimeout(() => {
+            pinInput = '';
+            renderDots();
+            pinDotsEl.classList.remove('shake');
+          }, 500);
+        }
+      }
+    }
+  });
+
+  // ---------- proposal: dodge button ----------
+  const stage = document.getElementById('buttonStage');
+  const btnNo = document.getElementById('btnNo');
+  const btnYes = document.getElementById('btnYes');
+  const dodgeCaptionEl = document.getElementById('dodgeCaption');
+
+  const captions = [
+    "Yakin nih jawabannya?",
+    "Coba lagi deh~",
+    "Gak bisa kabur terus lohh",
+    "Sebenernya jawabannya cuma satu kok",
+    "Udah, bilang Yes aja 🥹"
+  ];
+  let dodgeCount = 0;
+
+  function dodgeNo() {
+    const stageRect = stage.getBoundingClientRect();
+    const btnRect = btnNo.getBoundingClientRect();
+    const maxX = Math.max(stageRect.width - btnRect.width, 0);
+    const maxY = Math.max(stageRect.height - btnRect.height, 0);
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    btnNo.style.position = 'absolute';
+    btnNo.style.left = x + 'px';
+    btnNo.style.top = y + 'px';
+    btnNo.style.transform = 'translate(0,0)';
+
+    dodgeCount++;
+    const scale = Math.min(1 + dodgeCount * 0.12, 2.2);
+    btnYes.style.transform = `translate(-50%,-50%) scale(${scale})`;
+    dodgeCaptionEl.textContent = captions[Math.min(dodgeCount - 1, captions.length - 1)];
+  }
+
+  btnNo.addEventListener('pointerenter', dodgeNo);
+  btnNo.addEventListener('click', (e) => { e.preventDefault(); dodgeNo(); });
+  btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); dodgeNo(); }, { passive: false });
+
+  btnYes.addEventListener('click', () => {
+    document.getElementById('celebrateText').textContent = `${CONFIG.recipientName} bilang YES! 💍`;
+    document.getElementById('celebrateSub').textContent = `Sekarang resmi jadi pacarnya ${CONFIG.senderName} 💕`;
+    goTo('scene-celebrate');
+    launchConfetti();
+  });
+
+  // ---------- restart ----------
+  document.getElementById('btnRestart').addEventListener('click', () => {
+    pinInput = '';
+    renderDots();
+    pinErrorEl.textContent = '';
+    pinBadge.textContent = '🔒';
+    pinBadge.classList.remove('is-success');
+
+    dodgeCount = 0;
+    btnNo.style.position = '';
+    btnNo.style.left = '';
+    btnNo.style.top = '';
+    btnNo.style.transform = '';
+    btnYes.style.transform = '';
+    dodgeCaptionEl.textContent = '';
+
+    goTo('scene-cover');
+  });
+
+  // ---------- confetti ----------
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function launchConfetti() {
+    if (prefersReducedMotion) return;
+    const container = document.getElementById('confettiContainer');
+    const colors = ['#E2536B', '#FF9684', '#F0B860', '#FFD9CC', '#ffffff'];
+
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.style.position = 'absolute';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-10px';
+      const size = (6 + Math.random() * 6) + 'px';
+      c.style.width = size;
+      c.style.height = size;
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
+      c.style.animationDelay = (Math.random() * 0.5) + 's';
+      container.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+
+  // init
+  goTo('scene-cover');
+</script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+/* ===========================
+   Reset & base
+=========================== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  font-family: 'Nunito', sans-serif;
+  color: #2D3047; /* Diubah: Dari cokelat tua ke abu-abu gelap keunguan */
+  background: linear-gradient(to bottom, #E8F5E9, #D1C4E9, #B39DDB); /* Diubah: Gradasi Mint lembut ke Lilac */
+}
+
+button {
+  font: inherit;
+}
+
+/* ===========================
+   Ambient floating decorations
+=========================== */
+.ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.floating-icon {
+  position: absolute;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+.float-slow { animation: floatY 6s ease-in-out infinite; }
+.float-slower { animation: floatY 9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .float-slow, .float-slower {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ===========================
+   Progress bar
+=========================== */
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 50;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #A5D6A7; /* Diubah: Dari kuning ke hijau mint cerah */
+  transition: width 0.5s ease;
+}
+
+/* ===========================
+   Layout
+=========================== */
+.app-main {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.scene-cover,
+.scene-pin,
+.scene-proposal,
+.scene-celebrate {
+  max-width: 384px;
+}
+
+.scene-letter {
+  max-width: 448px;
+}
+
+.scene-cover { gap: 20px; }
+.scene-pin { gap: 20px; }
+.scene-letter { gap: 20px; }
+.scene-proposal { gap: 24px; }
+.scene-celebrate { gap: 12px; }
+
+/* ===========================
+   Shared bits
+=========================== */
+.icon-badge {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7E57C2, #B39DDB); /* Diubah: Gradasi Ungu Lilac */
+  box-shadow: 0 10px 25px rgba(126, 87, 194, 0.3); /* Diubah: Bayangan menyesuaikan warna ungu */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.875rem;
+  margin: 0 auto;
+  user-select: none;
+  transition: transform 0.3s ease;
+}
+
+.icon-badge.is-success {
+  transform: scale(1.25);
+}
+
+.script-heading {
+  font-family: 'Caveat', cursive;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .script-heading { font-size: 3rem; }
+}
+
+.script-name {
+  font-family: 'Caveat', cursive;
+  font-size: 3rem;
+  color: #7E57C2; /* Diubah: Dari merah muda ke ungu lilac tua */
+  margin: -12px 0 0;
+}
+@media (min-width: 640px) {
+  .script-name { font-size: 3.75rem; }
+}
+
+.muted-text {
+  font-size: 0.875rem;
+  color: rgba(45, 48, 71, 0.7); /* Diubah: Transparansi warna teks baru */
+  padding: 0 16px;
+  margin: 0;
+}
+
+.muted-tight {
+  margin-top: -8px;
+}
+
+.heading-md {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+.btn {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  padding: 12px 32px;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+.btn:active { transform: scale(0.95); }
+.btn:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
+.btn-primary {
+  background: #7E57C2; /* Diubah: Tombol utama jadi ungu lilac */
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(126, 87, 194, 0.3);
+  margin-top: 8px;
+}
+.btn-primary:hover { background: #673AB7; } /* Diubah: Ungu sedikit lebih tua saat hover */
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.8);
+  color: #2D3047; /* Diubah: Warna teks sekunder */
+  font-size: 0.875rem;
+  padding: 8px 24px;
+  margin-top: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary:hover { background: #ffffff; }
+.btn-secondary:focus-visible { outline: 2px solid #7E57C2; outline-offset: 2px; } /* Diubah: Outline focus */
+
+/* ===========================
+   PIN scene
+=========================== */
+.pin-dots {
+  display: flex;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.pin-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #7E57C2; /* Diubah: Border dot PIN */
+  background: transparent;
+}
+.pin-dot--filled {
+  background: #7E57C2; /* Diubah: Dot PIN terisi */
+}
+
+.error-text {
+  color: #E53935; /* Diubah: Merah tegas untuk indikator error agar tetap fungsional */
+  font-size: 0.875rem;
+  height: 20px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.4s ease; }
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 260px;
+}
+
+.numpad-btn {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #2D3047; /* Diubah */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+.numpad-btn:hover { background: #ffffff; }
+.numpad-btn:active { transform: scale(0.9); }
+.numpad-btn:focus-visible { outline: 2px solid #7E57C2; outline-offset: 2px; } /* Diubah */
+
+.numpad-btn--clear {
+  font-size: 0.6875rem;
+  background: rgba(255, 255, 255, 0.5);
+}
+.numpad-btn--clear:hover { background: rgba(255, 255, 255, 0.8); }
+
+/* ===========================
+   Letter scene
+=========================== */
+.letter-card {
+  background: rgba(249, 247, 252, 0.95); /* Diubah: Kertas putih dengan sedikit hint ungu sangat lembut */
+  border-top: 4px solid #A5D6A7; /* Diubah: Border atas kartu warna hijau mint */
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  max-height: 65vh;
+  overflow-y: auto;
+  text-align: left;
+  color: #2D3047; /* Diubah */
+  line-height: 1.6;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .letter-card { padding: 32px; }
+}
+
+.letter-greeting {
+  font-family: 'Caveat', cursive;
+  font-size: 1.875rem;
+  color: #7E57C2; /* Diubah */
+  margin: 0 0 16px;
+}
+
+.letter-body { font-size: 15px; }
+.letter-body p { margin: 0 0 12px; }
+.letter-body p:last-child { margin-bottom: 0; }
+
+.letter-signature {
+  margin: 24px 0 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  text-align: right;
+  color: #7E57C2; /* Diubah */
+}
+
+/* ===========================
+   Proposal scene
+=========================== */
+.proposal-quote {
+  font-family: 'Caveat', cursive;
+  font-size: 2.25rem;
+  line-height: 1.3;
+  padding: 0 8px;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .proposal-quote { font-size: 3rem; }
+}
+
+.text-accent { color: #7E57C2; } /* Diubah */
+
+.dodge-caption {
+  font-size: 0.875rem;
+  color: rgba(45, 48, 71, 0.6); /* Diubah */
+  height: 20px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+}
+
+.button-stage {
+  position: relative;
+  width: 100%;
+  height: 176px;
+}
+@media (min-width: 640px) {
+  .button-stage { height: 192px; }
+}
+
+.btn-yes {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-60%, -50%);
+  padding: 12px 28px;
+  border-radius: 9999px;
+  border: none;
+  background: #7E57C2; /* Diubah: Tombol "YES" menjadi Ungu */
+  color: #ffffff;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(126, 87, 194, 0.3);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.btn-yes:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
+.btn-no {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(10%, -50%);
+  padding: 12px 28px;
+  border-radius: 9999px;
+  border: none;
+  background: #ffffff;
+  color: #2D3047; /* Diubah */
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease, top 0.3s ease;
+  cursor: pointer;
+}
+.btn-no:focus-visible { outline: 2px solid #7E57C2; outline-offset: 2px; } /* Diubah */
+
+/* ===========================
+   Celebrate scene
+=========================== */
+.celebrate-emoji { font-size: 3.75rem; }
+
+.celebrate-title {
+  font-family: 'Caveat', cursive;
+  font-size: 2.25rem;
+  color: #7E57C2; /* Diubah */
+  margin: 0;
+}
+
+.celebrate-text {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ===========================
+   Confetti
+=========================== */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 40;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+}
+
+/* ===========================
+   Scrollbar (letter card)
+=========================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(126, 87, 194, 0.4); /* Diubah */
+  border-radius: 4px;
+}
